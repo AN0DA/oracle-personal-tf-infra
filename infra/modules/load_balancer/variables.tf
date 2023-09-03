@@ -1,3 +1,5 @@
-variable "base_subnet_id" {}
+variable "lb_subnet_id" {}
 
-variable "instance_public_id" {}
+variable "lb_sg_id" {}
+
+variable "instance_private_id" {}

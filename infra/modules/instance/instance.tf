@@ -11,11 +11,9 @@ resource "oci_core_instance" "vm_instance" {
 
   create_vnic_details {
     subnet_id        = var.base_subnet_id
-    display_name     = "primaryvnic"
     assign_public_ip = true
-    nsg_ids          = [oci_core_network_security_group.base_network_security_group.id]
+    nsg_ids          = [var.sg_ssh_id, var.sg_web_id]
   }
-
 
   source_details {
     source_type = "image"

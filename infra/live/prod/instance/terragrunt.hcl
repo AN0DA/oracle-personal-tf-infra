@@ -17,12 +17,16 @@ dependency "network" {
   config_path = "../network"
   mock_outputs = {
     base_subnet_id = "ocid1.subnet.oc1.eu-amsterdam-1.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    vcn_id = "ocid1.vcn.oc1.eu-amsterdam-1.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    vcn_id         = "ocid1.vcn.oc1.eu-amsterdam-1.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    sg_web_id      = "ocid1.networksecuritygroup.oc1.eu-amsterdam-1.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    sg_ssh_id      = "ocid1.networksecuritygroup.oc1.eu-amsterdam-1.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   }
 }
 
 
 inputs = {
   base_subnet_id = dependency.network.outputs.base_subnet_id,
-  vcn_id = dependency.network.outputs.vcn_id,
+  vcn_id         = dependency.network.outputs.vcn_id,
+  sg_web_id      = dependency.network.outputs.sg_web_id,
+  sg_ssh_id      = dependency.network.outputs.sg_ssh_id,
 }

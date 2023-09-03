@@ -27,7 +27,7 @@ resource "tls_self_signed_cert" "tls_cert" {
 }
 
 resource "oci_load_balancer_certificate" "load_balancer_certificate" {
-  load_balancer_id   = oci_load_balancer_load_balancer.load_balancer.id
+  load_balancer_id   = oci_load_balancer.load_balancer.id
   ca_certificate     = tls_self_signed_cert.tls_cert.cert_pem
   certificate_name   = "mkaczmarek"
   private_key        = tls_private_key.tls_key.private_key_pem

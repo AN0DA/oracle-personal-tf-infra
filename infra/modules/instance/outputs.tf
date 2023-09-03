@@ -1,5 +1,9 @@
-output "vm_ip_address" {
+output "vm_public_ip" {
   value = oci_core_instance.vm_instance.public_ip
+}
+
+output "vm_private_ip" {
+  value = oci_core_instance.vm_instance.private_ip
 }
 
 

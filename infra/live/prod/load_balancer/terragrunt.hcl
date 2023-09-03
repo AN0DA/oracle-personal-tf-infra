@@ -10,19 +10,21 @@ include {
 dependency "instance" {
   config_path = "../instance"
   mock_outputs = {
-    vm_ip_address = "0.0.0.0",
+    vm_private_ip = "0.0.0.0",
   }
 }
 
 dependency "network" {
   config_path = "../network"
   mock_outputs = {
-    base_subnet_id    = "ocid1.subnet.oc1.eu-amsterdam-1.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    lb_subnet_id = "ocid1.subnet.oc1.eu-amsterdam-1.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    sg_lb_id     = "ocid1.networksecuritygroup.oc1.eu-amsterdam-1.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   }
 }
 
 
 inputs = {
-  base_subnet_id     = dependency.network.outputs.base_subnet_id,
-  instance_public_id = dependency.instance.outputs.vm_ip_address,
+  lb_subnet_id        = dependency.network.outputs.lb_subnet_id,
+  lb_sg_id            = dependency.network.outputs.sg_lb_id,
+  instance_private_id = dependency.instance.outputs.vm_private_ip,
 }
