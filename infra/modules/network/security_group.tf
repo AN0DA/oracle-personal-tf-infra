@@ -2,33 +2,33 @@
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
 # ATPSecurityGroup
-resource "oci_core_network_security_group" "ATPSecurityGroup" {
+resource "oci_core_network_security_group" "DBSecurityGroup" {
   compartment_id = var.compartment_ocid
-  display_name   = "ATPSecurityGroup"
+  display_name   = "DBSecurityGroup"
   vcn_id         = oci_core_virtual_network.vcn.id
 
 }
 
 # Rules related to ATPSecurityGroup
 # EGRESS
-resource "oci_core_network_security_group_security_rule" "ATPSecurityEgressGroupRule" {
-  network_security_group_id = oci_core_network_security_group.ATPSecurityGroup.id
+resource "oci_core_network_security_group_security_rule" "DBSecurityEgressGroupRule" {
+  network_security_group_id = oci_core_network_security_group.DBSecurityGroup.id
   direction                 = "EGRESS"
   protocol                  = "6"
   destination               = "10.1.0.0/24"
   destination_type          = "CIDR_BLOCK"
 }
 # INGRESS
-resource "oci_core_network_security_group_security_rule" "ATPSecurityIngressGroupRules" {
-  network_security_group_id = oci_core_network_security_group.ATPSecurityGroup.id
+resource "oci_core_network_security_group_security_rule" "DBSecurityIngressGroupRules" {
+  network_security_group_id = oci_core_network_security_group.DBSecurityGroup.id
   direction                 = "INGRESS"
   protocol                  = "6"
   source                    = "10.1.0.0/24"
   source_type               = "CIDR_BLOCK"
   tcp_options {
     destination_port_range {
-      max = 1522
-      min = 1522
+      max = 3306
+      min = 3306
     }
   }
 }
@@ -46,7 +46,7 @@ resource "oci_core_network_security_group_security_rule" "WebSecurityEgressATPGr
   network_security_group_id = oci_core_network_security_group.WebSecurityGroup.id
   direction                 = "EGRESS"
   protocol                  = "6"
-  destination               = oci_core_network_security_group.ATPSecurityGroup.id
+  destination               = oci_core_network_security_group.DBSecurityGroup.id
   destination_type          = "NETWORK_SECURITY_GROUP"
 }
 resource "oci_core_network_security_group_security_rule" "WebSecurityEgressInternetGroupRule" {

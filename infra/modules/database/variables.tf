@@ -1,3 +1,13 @@
-variable "vault_id" {}
+variable "instance_shape" {}
 
-variable "vault_management_endpoint" {}
+variable "ocpus" {}
+
+variable "memory_in_gbs" {}
+
+variable "db_subnet_id" {}
+
+variable "vcn_id" {}
+
+variable "sg_db_id" {}
+
+variable "sg_ssh_id" {}

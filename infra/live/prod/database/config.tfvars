@@ -1,1 +1,3 @@
-vault_id = "ocid1.vault.oc1.eu-amsterdam-1.frsocammaafvw.abqw2ljrykrbxeb5ccwj6e7rgcti7wwwquzpbopd3irrz732t72637fwdyqq"
+ocpus          = 1
+memory_in_gbs  = 1
+instance_shape = "VM.Standard.E2.1.Micro"
