@@ -40,3 +40,6 @@ terraform.rc
 # General
 .DS_Store
 .idea
+
+# Ansible
+inventory.ini
