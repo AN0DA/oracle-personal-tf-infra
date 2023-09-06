@@ -34,7 +34,7 @@ resource "oci_bastion_session" "db_bastionsession" {
 
 
 resource "time_sleep" "db_instance_id" {
-  create_duration = "90s"
+  create_duration = "240s"
 
   triggers = {
     db_instance_id = oci_core_instance.db_instance.id
