@@ -15,3 +15,8 @@ output "bastion_private_key" {
 output "bastion_session_username" {
   value = oci_bastion_session.db_bastionsession.id
 }
+
+output "db_user_password" {
+  value = random_password.db_user_password.result
+  sensitive = true
+}
