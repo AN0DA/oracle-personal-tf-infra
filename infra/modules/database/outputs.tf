@@ -17,6 +17,6 @@ output "bastion_session_username" {
 }
 
 output "db_user_password" {
-  value = random_password.db_user_password.result
+  value     = random_password.db_user_password.result
   sensitive = true
 }
