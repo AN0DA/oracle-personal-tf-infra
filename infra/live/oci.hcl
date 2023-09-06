@@ -41,6 +41,15 @@ terraform {
     oci = {
       source = "oracle/oci"
     }
+
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 4.0"
+    }
+        acme = {
+      source  = "vancluever/acme"
+      version = "~> 2.0"
+    }
   }
 }
 
@@ -50,12 +59,22 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "compartment_ocid" {}
 
+variable "cloudflare_api_token" {}
+
 provider "oci" {
   region           = "eu-amsterdam-1"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
+}
+
+provider "cloudflare" {
+  api_token = var.cloudflare_api_token
+}
+
+provider "acme" {
+  server_url = "https://acme-v02.api.letsencrypt.org/directory"
 }
 EOF
 }

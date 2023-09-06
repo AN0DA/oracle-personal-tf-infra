@@ -46,3 +46,16 @@ resource "oci_load_balancer_listener" "lb-listener" {
   port                     = 80
   protocol                 = "HTTP"
 }
+
+resource "oci_load_balancer_listener" "lb-listener-https" {
+  load_balancer_id         = oci_load_balancer.load_balancer.id
+  name                     = "https"
+  default_backend_set_name = oci_load_balancer_backend_set.load_balancer_backend_set.name
+  port                     = 443
+  protocol                 = "HTTP"
+
+  ssl_configuration {
+    certificate_name        = oci_load_balancer_certificate.load_balancer_certificate.certificate_name
+    verify_peer_certificate = false
+  }
+}

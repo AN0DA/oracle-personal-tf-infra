@@ -42,7 +42,7 @@ resource "oci_core_network_security_group" "WebSecurityGroup" {
 }
 # Rules related to WebSecurityGroup
 # EGRESS
-resource "oci_core_network_security_group_security_rule" "WebSecurityEgressATPGroupRule" {
+resource "oci_core_network_security_group_security_rule" "WebSecurityEgressDBGroupRule" {
   network_security_group_id = oci_core_network_security_group.WebSecurityGroup.id
   direction                 = "EGRESS"
   protocol                  = "6"
@@ -57,7 +57,7 @@ resource "oci_core_network_security_group_security_rule" "WebSecurityEgressInter
   destination_type          = "CIDR_BLOCK"
 }
 # INGRESS
-resource "oci_core_network_security_group_security_rule" "WebSecurityIngressGroupRules" {
+resource "oci_core_network_security_group_security_rule" "WebSecurityIngressGroupRules-http" {
   network_security_group_id = oci_core_network_security_group.WebSecurityGroup.id
   direction                 = "INGRESS"
   protocol                  = "6"
@@ -70,6 +70,20 @@ resource "oci_core_network_security_group_security_rule" "WebSecurityIngressGrou
     }
   }
 }
+#
+#resource "oci_core_network_security_group_security_rule" "WebSecurityIngressGroupRules-https" {
+#  network_security_group_id = oci_core_network_security_group.WebSecurityGroup.id
+#  direction                 = "INGRESS"
+#  protocol                  = "6"
+#  source                    = "10.1.1.0/24"
+#  source_type               = "CIDR_BLOCK"
+#  tcp_options {
+#    destination_port_range {
+#      max = 443
+#      min = 443
+#    }
+#  }
+#}
 
 # LBSecurityGroup
 resource "oci_core_network_security_group" "LBSecurityGroup" {
@@ -88,7 +102,7 @@ resource "oci_core_network_security_group_security_rule" "LBSecurityEgressIntern
   destination_type          = "CIDR_BLOCK"
 }
 # INGRESS
-resource "oci_core_network_security_group_security_rule" "LBSecurityIngressGroupRules" {
+resource "oci_core_network_security_group_security_rule" "LBSecurityIngressGroupRules-http" {
   network_security_group_id = oci_core_network_security_group.LBSecurityGroup.id
   direction                 = "INGRESS"
   protocol                  = "6"
@@ -98,6 +112,20 @@ resource "oci_core_network_security_group_security_rule" "LBSecurityIngressGroup
     destination_port_range {
       max = 80
       min = 80
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "LBSecurityIngressGroupRules-https" {
+  network_security_group_id = oci_core_network_security_group.LBSecurityGroup.id
+  direction                 = "INGRESS"
+  protocol                  = "6"
+  source                    = "0.0.0.0/0"
+  source_type               = "CIDR_BLOCK"
+  tcp_options {
+    destination_port_range {
+      max = 443
+      min = 443
     }
   }
 }
