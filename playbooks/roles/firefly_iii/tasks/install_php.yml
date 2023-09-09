@@ -1,0 +1,38 @@
+- name: Install EPEL repository for Ubuntu
+  apt:
+    name:
+      - software-properties-common
+      - ca-certificates
+      - apt-transport-https
+    state: present
+
+- name: Add PHP repository
+  apt_repository:
+    repo: ppa:ondrej/php
+    state: present
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install PHP and mysql
+  apt:
+    name:
+      - mysql-common
+      - php8.2
+      - php8.2-common
+      - php8.2-bcmath
+      - php8.2-intl
+      - php8.2-curl
+      - php8.2-zip
+      - php8.2-gd
+      - php8.2-xml
+      - php8.2-mbstring
+      - php8.2-ldap
+      - php8.2-mysql
+      - php-mysql
+      - curl
+    state: present
+
+- name: Install Composer
+  shell: "curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer"

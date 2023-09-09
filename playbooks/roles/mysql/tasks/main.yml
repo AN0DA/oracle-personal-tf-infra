@@ -1,0 +1,8 @@
+- name: Configure prerequisites
+  import_tasks: prerequisites.yml
+
+- name: Install mysql
+  import_tasks: install_mysql.yml
+
+- name: Configure mysql
+  import_tasks: configure_mysql.yml

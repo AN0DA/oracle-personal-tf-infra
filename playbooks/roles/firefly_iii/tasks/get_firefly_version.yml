@@ -1,0 +1,15 @@
+- name: Fetch JSON data
+  uri:
+    url: https://version.firefly-iii.org/index.json
+    return_content: yes
+  register: json_response
+
+- name: Extract Firefly III version
+  set_fact:
+    raw_firefly_version: "{{ (json_response.content | from_json)['firefly_iii']['stable']['version'] }}"
+    raw_data_importer_version: "{{ (json_response.content | from_json)['data']['stable']['version'] }}"
+
+- name: Remove 'v' prefix from version
+  set_fact:
+    firefly_version: "{{ raw_firefly_version[1:] }}"
+    data_importer_version: "{{ raw_data_importer_version[1:] }}"

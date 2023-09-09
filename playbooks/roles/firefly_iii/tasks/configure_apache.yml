@@ -1,0 +1,24 @@
+- name: Copy Apache configuration
+  copy:
+    src: "files/apache2.conf"
+    dest: /etc/apache2/apache2.conf
+
+- name: Copy Apache site configs
+  copy:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+  with_items:
+    - { src: 'files/firefly-iii.conf', dest: '/etc/apache2/sites-available/firefly-iii.conf' }
+    - { src: 'files/data-importer.conf', dest: '/etc/apache2/sites-available/data-importer.conf' }
+
+- name: Enable Apache sites
+  command: a2ensite firefly-iii.conf data-importer.conf
+
+- name: Configure PHP modules
+  shell: |
+    a2dismod php7.4
+    a2enmod php8.2
+    a2enmod rewrite
+
+- name: Restart Apache server
+  command: service apache2 restart

@@ -1,0 +1,18 @@
+---
+- name: Install php
+  import_tasks: install_php.yml
+
+- name: Install Apache2
+  import_tasks: install_apache.yml
+
+- name: Get Firefly III version
+  import_tasks: get_firefly_version.yml
+
+- name: Install Firefly III
+  import_tasks: install_firefly.yml
+
+- name: Install Data Importer
+  import_tasks: install_data_importer.yml
+
+- name: Configure Apache
+  import_tasks: configure_apache.yml

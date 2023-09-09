@@ -1,0 +1,35 @@
+- name: Add Apache2 repository
+  apt_repository:
+    repo: ppa:ondrej/apache2
+    state: present
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install Apache2
+  apt:
+    name: apache2
+    state: present
+
+- name: Allow HTTP traffic through firewall
+  shell: |
+    iptables -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    iptables -A OUTPUT -p tcp --sport 80 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+    netfilter-persistent save
+    netfilter-persistent reload
+    iptables -F
+
+- name: Allow Load Balancer to access /server-status page
+  lineinfile:
+    path: /etc/apache2/mods-enabled/status.conf
+    regexp: '\#Require ip 192\.0\.2\.0\/24'
+    line: Require ip 10.1.1
+
+- name: Configure PHP modules
+  shell: |
+    a2enmod php8.2
+    a2enmod rewrite
+
+- name: Restart Apache2 service
+  command: service apache2 restart

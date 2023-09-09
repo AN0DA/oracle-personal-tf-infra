@@ -1,0 +1,19 @@
+---
+- hosts: db_instance
+  roles:
+    - role: mysql
+      become: true
+      gather_facts: true
+
+
+- hosts: base_instance
+  roles:
+    - role: firefly_iii
+      become: true
+      gather_facts: false
+
+- hosts: all
+  roles:
+    - role: newrelic
+      #ansible-galaxy install newrelic.newrelic_install
+

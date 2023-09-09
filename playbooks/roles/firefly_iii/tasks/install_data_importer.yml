@@ -1,0 +1,20 @@
+- name: Install Data Importer using Composer
+  command: "composer create-project firefly-iii/data-importer --no-interaction --no-dev --prefer-dist data-importer {{ data_importer_version }}"
+  args:
+    chdir: /var/www/html
+
+- name: Set folder permissions
+  shell: |
+    chown -R www-data:www-data /var/www/html/data-importer
+    chmod -R 775 /var/www/html/data-importer/storage
+
+- name: Configure .env file
+  lineinfile:
+    dest: /var/www/html/data-importer/.env
+    regexp: "{{item.property}}"
+    line: "{{ item.value }}"
+  with_items:
+    - { property: '^FIREFLY_III_URL=.*', value: 'FIREFLY_III_URL=https://firefly.mkaczmarek.com' }
+    - { property: '^TZ=.*', value: 'TZ=Europe/Warsaw' }
+    - { property: '^EXPECT_SECURE_URL=.*', value: 'EXPECT_SECURE_URL=true' }
+    - { property: '^CONNECTION_TIMEOUT=.*', value: 'CONNECTION_TIMEOUT=314.15' }
