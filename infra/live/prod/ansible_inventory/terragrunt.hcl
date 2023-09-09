@@ -22,6 +22,7 @@ dependency "database" {
     bastion_session_username = "ocid1.bastionsession.oc1.eu-amsterdam-1.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     bastion_private_key      = "",
     db_user_password         = "xxxxxxxxxxxxxxxxxxxxxxxx"
+    db_root_password         = "xxxxxxxxxxxxxxxxxxxxxxxx"
   }
 }
 
@@ -34,5 +35,6 @@ inputs = {
   db_bastion_username       = dependency.database.outputs.bastion_session_username,
   db_bastion_private_key    = dependency.database.outputs.bastion_private_key,
   db_user_password          = dependency.database.outputs.db_user_password,
+  db_root_password          = dependency.database.outputs.db_root_password,
   playbooks_path            = "${get_repo_root()}/playbooks"
 }

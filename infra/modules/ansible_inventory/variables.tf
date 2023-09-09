@@ -13,3 +13,5 @@ variable "db_bastion_private_key" {}
 variable "playbooks_path" {}
 
 variable "db_user_password" {}
+
+variable "db_root_password" {}
