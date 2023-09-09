@@ -1,0 +1,31 @@
+- name: Install newrelic agent on base instance
+  include_role:
+    name: newrelic.newrelic_install
+    apply:
+      environment:
+        NEW_RELIC_API_KEY: NRAK-LG00Z8G9M4C7GGHPHAKVKFG4ONB
+        NEW_RELIC_ACCOUNT_ID: 4028972
+        NEW_RELIC_REGION: EU
+  vars:
+    targets:
+      - infrastructure
+      - logs
+      - apache
+      - apm-php
+  when: inventory_hostname in groups['base_instance']
+
+- name: Install newrelic agent on db instance
+  include_role:
+    name: newrelic.newrelic_install
+    apply:
+      environment:
+        NEW_RELIC_MYSQL_ROOT_PASSWORD: "{{db_root_password}}"
+        NEW_RELIC_API_KEY: NRAK-LG00Z8G9M4C7GGHPHAKVKFG4ONB
+        NEW_RELIC_ACCOUNT_ID: 4028972
+        NEW_RELIC_REGION: EU
+  vars:
+    targets:
+      - infrastructure
+      - logs
+      - mysql
+  when: inventory_hostname in groups['db_instance']
