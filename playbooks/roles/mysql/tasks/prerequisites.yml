@@ -10,9 +10,5 @@
     name: pymysql
     state: present
 
-- name: Allow HTTP traffic through firewall
-  shell: |
-    iptables -A INPUT -p tcp --dport 3306 -j ACCEPT
-    netfilter-persistent save
-    netfilter-persistent reload
-    iptables -F
+- name: Disable iptables
+  command: service iptables stop

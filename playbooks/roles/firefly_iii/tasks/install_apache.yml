@@ -12,13 +12,9 @@
     name: apache2
     state: present
 
-- name: Allow HTTP traffic through firewall
+- name: Disable iptables
   shell: |
-    iptables -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-    iptables -A OUTPUT -p tcp --sport 80 -m conntrack --ctstate ESTABLISHED -j ACCEPT
-    netfilter-persistent save
-    netfilter-persistent reload
-    iptables -F
+    service iptables stop
 
 - name: Allow Load Balancer to access /server-status page
   lineinfile:
