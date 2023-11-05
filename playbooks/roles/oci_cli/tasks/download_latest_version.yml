@@ -1,0 +1,9 @@
+- name: Get latest release name
+  shell: curl -s https://api.github.com/repos/oracle/oci-cli/releases/latest | jq -r '.name'
+  register: release_info
+
+- set_fact:
+    release_name: "{{release_info.stdout}}"
+
+- name: Download latest release
+  command: "curl -L 'https://github.com/oracle/oci-cli/releases/download/v{{release_name}}/oci-cli-{{release_name}}.zip' -o /tmp/oci-cli.zip"

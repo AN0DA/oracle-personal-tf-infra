@@ -1,0 +1,5 @@
+- name: Unzip oci-cli.zip
+  command: unzip -u /tmp/oci-cli.zip -d /tmp
+
+- name: Install oci cli
+  command: "pip3 install /tmp/oci-cli/oci_cli-{{release_name}}-py3-none-any.whl"

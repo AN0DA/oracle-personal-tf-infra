@@ -1,0 +1,11 @@
+- name: Configure prerequisites
+  import_tasks: prerequisites.yml
+
+- name: Download OCI cli
+  import_tasks: download_latest_version.yml
+
+- name: Install OCI cli
+  import_tasks: install_oci_cli.yml
+
+- name: Configure OCI cli
+  import_tasks: configure_oci_cli.yml

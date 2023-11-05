@@ -1,4 +1,10 @@
 ---
+- hosts: all
+  tags: oci
+  roles:
+    - role: oci_cli
+      become: true
+
 - hosts: db_instance
   tags: mysql
   roles:
