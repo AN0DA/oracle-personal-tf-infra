@@ -1,25 +1,13 @@
-### Root
-- name: Create MySQL root user with password
-  community.mysql.mysql_user:
-    login_unix_socket: /var/run/mysqld/mysqld.sock
-    name: 'root'
-    password: '{{ db_root_password }}'
-    host: localhost
-    priv: '*.*:ALL,GRANT'
-    state: present
-  when: db_root_password is defined
-  ignore_errors: true
-
 ### Databases
 - name: Remove test MySQL database
-  community.mysql.mysql_db:
+  mysql_db:
     login_user: root
     login_password: "{{ db_root_password }}"
     name: test
     state: absent
 
 - name: Create the Firefly database
-  community.mysql.mysql_db:
+  mysql_db:
     login_user: root
     login_password: "{{ db_root_password }}"
     name: firefly
@@ -27,22 +15,22 @@
 
 ### Users
 - name: Remove anonymous MySQL user
-  community.mysql.mysql_db:
+  mysql_db:
     login_user: root
     login_password: "{{ db_root_password }}"
     name: ''
     state: absent
 
 - name: Create MySQL firefly user
-  community.mysql.mysql_user:
+  mysql_user:
     login_user: root
     login_password: "{{ db_root_password }}"
     name: 'firefly'
-    password: '{{ db_user_password }}'
+    password: '{{ firefly_db_user_password }}'
     host: base-vm.basesubnet.basevcn.oraclevcn.com
     priv: 'firefly.*:ALL'
     state: present
-  when: db_user_password is defined
+  when: firefly_db_user_password is defined
 
 - name: Reload privilege tables
   command: 'mysql -u root -p{{db_root_password}} -ne "{{ item }}"'
