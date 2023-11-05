@@ -1,3 +1,3 @@
-ocpus          = 1
-memory_in_gbs  = 1
-instance_shape = "VM.Standard.E2.1.Micro"
+ocpus          = 2
+memory_in_gbs  = 8
+instance_shape = "VM.Standard.A1.Flex"
