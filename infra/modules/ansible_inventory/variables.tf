@@ -12,6 +12,10 @@ variable "db_bastion_private_key" {}
 
 variable "playbooks_path" {}
 
-variable "db_user_password" {}
+variable "firefly_db_user_password" {}
 
 variable "db_root_password" {}
+
+variable "backup_bucket_name" {}
+
+variable "backup_bucket_namespace" {}

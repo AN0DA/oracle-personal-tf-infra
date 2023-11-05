@@ -23,6 +23,8 @@ dependency "database" {
     bastion_private_key      = "",
     db_user_password         = "xxxxxxxxxxxxxxxxxxxxxxxx"
     db_root_password         = "xxxxxxxxxxxxxxxxxxxxxxxx"
+    backup_bucket_name       = ""
+    backup_bucket_namespace  = ""
   }
 }
 
@@ -34,7 +36,9 @@ inputs = {
   db_instance_private_key   = dependency.database.outputs.db_private_key,
   db_bastion_username       = dependency.database.outputs.bastion_session_username,
   db_bastion_private_key    = dependency.database.outputs.bastion_private_key,
-  db_user_password          = dependency.database.outputs.db_user_password,
+  firefly_db_user_password  = dependency.database.outputs.firefly_db_user_password,
   db_root_password          = dependency.database.outputs.db_root_password,
+  backup_bucket_name        = dependency.database.outputs.backup_bucket_name
+  backup_bucket_namespace   = dependency.database.outputs.backup_bucket_namespace
   playbooks_path            = "${get_repo_root()}/playbooks"
 }

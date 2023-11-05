@@ -7,7 +7,7 @@
 - name: Set folder permissions
   shell: |
     chown -R www-data:www-data /var/www/html/firefly-iii
-    chmod -R 775 /var/www/html/firefly-iii/storage
+    chmod -R 777 /var/www/html/firefly-iii/storage
 
 - name: Configure .env file
   lineinfile:
@@ -19,17 +19,25 @@
     - { property: '^DEFAULT_LANGUAGE=.*', value: 'DEFAULT_LANGUAGE=pl_PL' }
     - { property: '^DEFAULT_LOCALE=.*', value: 'DEFAULT_LOCALE=pl_PL' }
     - { property: '^TZ=.*', value: 'TZ=Europe/Warsaw' }
-    - { property: '^DB_HOST=.*', value: 'DB_HOST={{ db_private_ip }}' } #FIXME
-    - { property: '^DB_PASSWORD=.*', value: 'DB_PASSWORD={{db_user_password}}' } #FIXME
+    - { property: '^TRUSTED_PROXIES=.*', value: 'TRUSTED_PROXIES=**' }
+    - { property: '^DB_HOST=.*', value: 'DB_HOST={{ db_private_ip }}' }
+    - { property: '^DB_PASSWORD=.*', value: 'DB_PASSWORD={{firefly_db_user_password}}' }
 
 - name: Install Polish locale
   apt:
     name: language-pack-pl-base
 
-- name: Setup Artisian
+- name: Setup new database
   shell: |
     cd /var/www/html/firefly-iii
     php artisan migrate:refresh --seed
     php artisan firefly-iii:upgrade-database
+  when: restore_successful == false
+  ignore_errors: true
+
+
+- name: Setup authentication
+  shell: |
+    cd /var/www/html/firefly-iii
     php artisan passport:install
     php artisan key:generate
