@@ -11,3 +11,7 @@ data "oci_core_images" "test_images" {
   sort_by                  = "TIMECREATED"
   sort_order               = "DESC"
 }
+
+data "oci_objectstorage_namespace" "namespace" {
+  compartment_id = var.compartment_ocid
+}

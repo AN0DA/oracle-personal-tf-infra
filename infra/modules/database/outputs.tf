@@ -25,3 +25,11 @@ output "db_root_password" {
   value     = random_password.db_root_password.result
   sensitive = true
 }
+
+output "backup_bucket_name" {
+  value = oci_objectstorage_bucket.backup_bucket.name
+}
+
+output "backup_bucket_namespace" {
+  value = data.oci_objectstorage_namespace.namespace.namespace
+}

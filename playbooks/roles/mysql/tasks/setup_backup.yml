@@ -1,0 +1,13 @@
+- name: Create backup script file
+  template:
+    src: templates/backup_db.j2
+    dest: ~/backup_db.sh
+    mode: 0111
+
+
+- name: Schedule daily db backup
+  ansible.builtin.cron:
+    name: "backup databases"
+    hour: "3"
+    minute: "0"
+    job: ~/backup_db.sh

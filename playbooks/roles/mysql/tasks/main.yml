@@ -6,3 +6,10 @@
 
 - name: Configure mysql
   import_tasks: configure_mysql.yml
+
+- name: Try to restore backup
+  import_tasks: restore_backup.yml
+  ignore_errors: true
+
+- name: Schedule backup
+  import_tasks: setup_backup.yml

@@ -1,0 +1,34 @@
+- name: Get recent `firefly` database dump path
+  command: |
+    oci os object list --bucket-name {{backup_bucket_name}} --query "sort_by(data[?starts_with(name, 'firefly')], &'time-created')[-1].name" --output json
+  register: dump_object_name
+
+- debug:
+    var: dump_object_name
+
+- name: Set fact - existing_db
+  set_fact:
+    existing_db: "{{ dump_object_name.stdout if dump_object_name.stdout != 'Query returned empty result, no output to show.' else '' }}"
+
+- name: Skip if no dumps available
+  fail:
+    msg: "No dumps found in Oracle Object Storage bucket"
+  when: existing_db == ''
+
+- name: Download the dump file
+  command: "oci os object get --bucket-name {{backup_bucket_name}} --name {{ existing_db }} --file /tmp/backup_firefly.sql"
+  when: existing_db != ''
+
+- name: Restore MySQL database from dump file
+  mysql_db:
+    name: "firefly"
+    login_user: root
+    login_password: "{{ db_root_password }}"
+    state: import
+    target: "/tmp/backup_firefly.sql"
+  register: restore
+  when: existing_db != ''
+
+- name: Set fact - restore_successful
+  set_fact:
+    restore_successful: "{{ true if restore is succeeded else false }}"

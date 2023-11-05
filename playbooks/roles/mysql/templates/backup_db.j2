@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for db in $(mysql -u root -p{{ db_root_password }} -e "show databases" -s --skip-column-names | grep -Ev "^(information_schema|mysql|performance_schema|sys)$"); do
+timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
+mysqldump -u root -p{{ db_root_password }} $db | oci os object put --file - -bn {{ backup_bucket_name }} --name "${db}/${db}-${timestamp}.sql"
+done

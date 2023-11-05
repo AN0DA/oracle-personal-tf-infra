@@ -1,19 +1,22 @@
 ---
 - hosts: db_instance
+  tags: mysql
   roles:
     - role: mysql
       become: true
       gather_facts: true
 
-
 - hosts: base_instance
+  tags: firefly
   roles:
     - role: firefly_iii
       become: true
       gather_facts: false
+      vars:
+        restore_successful: hostvars['db']['restore_successful']
 
 - hosts: all
+  tags: newrelic
   roles:
-    - role: newrelic
-      #ansible-galaxy install newrelic.newrelic_install
-
+    - role: newrelic #ansible-galaxy install newrelic.newrelic_install
+      become: true
